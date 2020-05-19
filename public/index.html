@@ -24,7 +24,7 @@
 		</nav> -->
 	</header>
 
-	<div class="container">
+	<div class="container container-540">
 		<div class="mb-5">
 			<div class="city-container mb-3">
 				<div class="city js-city"></div>
@@ -41,9 +41,9 @@
 			</div>
 		</div>
 
-		<form class="form js-form mx-auto d-flex flex-column">
-			<div class="form-group" width="500">
-				<label for="city">City</label>
+		<form class="js-form mx-auto d-flex flex-column">
+			<div class="form-group">
+				<label class="font-weight-bold" for=" city">City</label>
 				<input type="city" class="js-input form-control mb-2" id="city" aria-describedby="cityHelp"
 					value="Los Angeles" placeholder="Los Angeles">
 				<small id="cityHelp" class="form-text text-muted">E.g. Chicago, New York, Bangkok, Paris, London, Dubai,
@@ -53,6 +53,11 @@
 
 			<!-- <button type="submit" class="btn btn-primary ml-auto">Submit</button> -->
 		</form>
+
+		<div class="font-weight-bold">Latest Entries</div>
+		<div class="js-latest-entries">
+
+		</div>
 	</div>
 
 	<script src="script.js"></script>

@@ -14,25 +14,49 @@ function getCityTemperature() {
 			$('.js-icon').attr('src', icon);
 			$('.js-weather').text(weather);
 			$('.js-temp').text(temp);
+
+			var latestEntries = $('.js-latest-entries');
+
+			latestEntries.prepend(`
+				<div class="d-flex align-items-center">
+					<img class="icon" src="${icon}" />
+					${city}, ${weather} - ${temp}&deg;
+				</div>
+			`);
 		}
 	)
 }
 
-var timer;
-$('.js-form').keyup(function(e) {
-	e.preventDefault();
-	clearTimeout(timer);
-	timer = setTimeout(function() {
-		city = $('.js-input').val();
+function storeLatestEntry() {
+	var latestEntries = $('.js-latest-entries');
 
-		if (city.length > 0) {
-			getCityTemperature();
-		}
-	}, 300);
-})
+	latestEntries.append(
+		`<div>
 
-$('.js-form').submit(function(e) {
-	e.preventDefault();
-});
+		</div>`);
+}
 
-getCityTemperature();
+function getCityTemperatureOnKeyUp(ms) {
+	var timer;
+	$('.js-form').keyup(function(e) {
+		e.preventDefault();
+		clearTimeout(timer);
+		timer = setTimeout(function() {
+			city = $('.js-input').val();
+
+			if (city.length > 0) {
+				getCityTemperature();
+			}
+		}, ms);
+	})
+}
+
+function preventSubmissionOfForm() {
+	$('.js-form').submit(function(e) {
+		e.preventDefault();
+	});
+}
+
+preventSubmissionOfForm();
+getCityTemperatureOnKeyUp(300);
+getCityTemperature(); // So that the form is run once on page load
