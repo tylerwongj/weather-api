@@ -6,13 +6,35 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	<link rel="stylesheet" href="main.css">
 </head>
 
 <body>
-	<div class="city">city</div>
-	<div class="weather">weather</div>
-	<div class="temp">temp</div>
+	<div class="container d-flex flex-column">
+		<header class="header">
+			<div class="header__title">Weather API</div>
+			<!-- <nav class="nav justify-content-center">
+				<a href="" class="nav-link active"></a>
+				<a href="" class="nav-link"></a>
+				<a href="" class="nav-link"></a>
+			</nav> -->
+		</header>
+
+		<form>
+			<div class="form-group">
+				<label for="city">City</label>
+				<input type="city" class="form-control" id="city" aria-describedby="cityHelp">
+				<small id="cityHelp" class="form-text text-muted">Enter a city to find its temperature.</small>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+
+		<div class="weather">weather</div>
+		<div class="temp">temp</div>
+	</div>
 </body>
 
 </html>
