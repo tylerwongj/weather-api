@@ -1,10 +1,17 @@
+body {
+	background-color: #333;
+	color: white;
+}
+
 .header {
-	align-items: center;
-	background: #ccc;
 	display: flex;
-	height: 60px;
 	justify-content: center;
+	align-items: center;
+
+	height: 60px;
 	margin-bottom: 30px;
+
+	background: #222;
 }
 
 .header__title {
@@ -12,11 +19,21 @@
 	font-weight: bold;
 }
 
-.city {
+.weather {
+	display: flex;
+	justify-content: center;
+
+	font-size: 30px;
+}
+
+.temp {
+	display: flex;
+	justify-content: center;
+
 	font-size: 30px;
 	font-weight: bold;
 }
 
-.weather {
-	font-size: 30px;
+.form {
+	max-width: 500px;
 }
