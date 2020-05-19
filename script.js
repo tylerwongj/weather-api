@@ -18,12 +18,17 @@ function getCityTemperature() {
 	)
 }
 
-$('.js-form').submit(function(e) {
+var timer;
+$('.js-form').keyup(function(e) {
 	e.preventDefault();
+	clearTimeout(timer);
+	timer = setTimeout(function() {
+		city = $('.js-input').val();
 
-	city = $('.js-input').val();
-
-	getCityTemperature();
+		if (city.length > 0) {
+			getCityTemperature();
+		}
+	}, 300);
 })
 
 getCityTemperature();
