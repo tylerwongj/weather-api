@@ -31,4 +31,8 @@ $('.js-form').keyup(function(e) {
 	}, 300);
 })
 
+$('.js-form').submit(function(e) {
+	e.preventDefault();
+});
+
 getCityTemperature();
