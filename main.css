@@ -19,14 +19,21 @@ body {
 	font-weight: bold;
 }
 
-.weather {
+.city-container {
+	display: flex;
+	justify-content: center;
+
+	font-size: 45px;
+}
+
+.weather-container {
 	display: flex;
 	justify-content: center;
 
 	font-size: 30px;
 }
 
-.temp {
+.temp-container {
 	display: flex;
 	justify-content: center;
 
