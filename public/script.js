@@ -17,23 +17,18 @@ function getCityTemperature() {
 
 			var latestEntries = $('.js-latest-entries');
 
-			latestEntries.prepend(`
-				<div class="d-flex align-items-center">
-					<img class="icon" src="${icon}" />
-					${city}, ${weather} - ${temp}&deg;
-				</div>
-			`);
+			storeLatestEntry(latestEntries, icon, weather, temp);
 		}
 	)
 }
 
-function storeLatestEntry() {
-	var latestEntries = $('.js-latest-entries');
-
-	latestEntries.append(
-		`<div>
-
-		</div>`);
+function storeLatestEntry(latestEntries, icon, weather, temp) {
+	latestEntries.prepend(`
+		<div class="d-flex align-items-center">
+			<img class="icon" src="${icon}" />
+			${city}, ${weather} - ${temp}&deg;
+		</div>
+	`);
 }
 
 function getCityTemperatureOnKeyUp(ms) {
