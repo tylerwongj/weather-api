@@ -49,8 +49,8 @@ function addEntry(entries, icon, weather, temp) {
 function setupCityTemperatureOnKeyUp(ms) {
 	var timer;
 	$('.js-form').keyup(function(e) {
-		e.preventDefault();
 		clearTimeout(timer);
+
 		timer = setTimeout(function() {
 			var newCity = $('.js-input').val();
 
@@ -59,7 +59,24 @@ function setupCityTemperatureOnKeyUp(ms) {
 				getCityTemperature();
 			}
 		}, ms);
-	})
+	});
+
+	// 'Enter' keypress skips setTimeout
+	$('.js-form').keydown(function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if (code != 13) {
+			return;
+		}
+
+		clearTimeout(timer);
+
+		var newCity = $('.js-input').val();
+
+		if (newCity.length > 0 && newCity != city) {
+			city = newCity;
+			getCityTemperature();
+		}
+	});
 }
 
 function setupPreventSubmissionOfForm() {
