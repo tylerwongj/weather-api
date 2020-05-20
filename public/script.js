@@ -1,8 +1,10 @@
-// VARS
+// PUBLIC VARS
 var initialCity = "Los Angeles";
 var waitTimeBeforeApiCall = 500; // ms
 var localStorageEntriesKey = 'entries';
 
+
+// PRIVATE VARS
 var previousCity = initialCity;
 var hasPreviousEntries = (localStorage.getItem(localStorageEntriesKey) != null ? true : false);
 var entryArray = JSON.parse(localStorage.getItem(localStorageEntriesKey)) || [];
