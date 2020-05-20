@@ -4,7 +4,7 @@ var waitTimeBeforeApiCall = 500; // ms
 var localStorageEntriesKey = 'entries';
 
 var previousCity = initialCity;
-var entrySet = new Set();
+var hasPreviousEntries = (localStorage.getItem(localStorageEntriesKey) != null ? true : false);
 var entryArray = JSON.parse(localStorage.getItem(localStorageEntriesKey)) || [];
 var entrySet = new Set(entryArray) || new Set();
 console.log(localStorage.getItem(localStorageEntriesKey)); // view localStorage current entries
@@ -15,8 +15,13 @@ function setup() {
 	setupPreventSubmissionOfForm();
 	setupCityTemperatureOnKeyUp(waitTimeBeforeApiCall);
 	setupClearEntries();
-	getPreviousEntries(entryArray);
-	// getCityTemperature(initialCity); // So that the form is run once on page load
+
+	if (hasPreviousEntries) {
+		getPreviousEntries(entryArray);
+	}
+	else {
+		getCityTemperature(initialCity); // So that the form is run once on page load
+	}
 }
 setup();
 
@@ -66,6 +71,10 @@ function addEntry(entries, city, icon, weather, temp) {
 		parentNode.parentNode.removeChild(parentNode);
 		entrySet.delete(city);
 		localStorage.setItem(localStorageEntriesKey, JSON.stringify(Array.from(entrySet)));
+
+		if (previousCity == city) {
+			previousCity = "";
+		}
 	});
 
 	entryNode.appendChild(imgNode);
@@ -124,6 +133,7 @@ function setupClearEntries() {
 		e.preventDefault();
 		$('.js-entries').empty();
 		entrySet.clear();
+		previousCity = "";
 		localStorage.removeItem(localStorageEntriesKey);
 	})
 }
