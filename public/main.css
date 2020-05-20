@@ -64,6 +64,7 @@ body {
 }
 
 .entry__clear {
+	cursor: pointer;
 	position: absolute;
 	right: 0;
 }
