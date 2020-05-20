@@ -1,6 +1,33 @@
-var city = "Los Angeles";
+// VARS
+var initialCity = "Los Angeles";
+var waitTimeBeforeApiCall = 500; // ms
+var localStorageEntriesKey = 'entries';
 
-function getCityTemperature() {
+var previousCity = initialCity;
+var entrySet = new Set();
+var entryArray = JSON.parse(localStorage.getItem(localStorageEntriesKey)) || [];
+var entrySet = new Set(entryArray) || new Set();
+console.log(localStorage.getItem(localStorageEntriesKey)); // view localStorage current entries
+
+
+// SETUP
+function setup() {
+	setupPreventSubmissionOfForm();
+	setupCityTemperatureOnKeyUp(waitTimeBeforeApiCall);
+	setupClearEntries();
+	getPreviousEntries(entryArray);
+	// getCityTemperature(initialCity); // So that the form is run once on page load
+}
+setup();
+
+// FUNCTIONS
+function getPreviousEntries(entryArray) {
+	for (var entry of entryArray) {
+		getCityTemperature(entry);
+	}
+}
+
+function getCityTemperature(city) {
 	$.getJSON(
 		`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&APPID=78b1c75a5e39cee7c2e02f82d496f981`,
 		function(data) {
@@ -17,12 +44,12 @@ function getCityTemperature() {
 
 			var entries = $('.js-entries');
 
-			addEntry(entries, icon, weather, temp);
+			addEntry(entries, city, icon, weather, temp);
 		}
 	)
 }
 
-function addEntry(entries, icon, weather, temp) {
+function addEntry(entries, city, icon, weather, temp) {
 	var entryNode = document.createElement('div');
 	entryNode.classList.add('entry', 'd-flex', 'align-items-center');
 
@@ -37,6 +64,8 @@ function addEntry(entries, icon, weather, temp) {
 	clearNode.addEventListener('click', function(e) {
 		var parentNode = e.currentTarget.parentNode;
 		parentNode.parentNode.removeChild(parentNode);
+		entrySet.delete(city);
+		localStorage.setItem(localStorageEntriesKey, JSON.stringify(Array.from(entrySet)));
 	});
 
 	entryNode.appendChild(imgNode);
@@ -44,6 +73,10 @@ function addEntry(entries, icon, weather, temp) {
 	entryNode.appendChild(clearNode);
 
 	entries.prepend(entryNode);
+
+	// setup localStorage
+	entrySet.add(city);
+	localStorage.setItem(localStorageEntriesKey, JSON.stringify(Array.from(entrySet)));
 }
 
 function setupCityTemperatureOnKeyUp(ms) {
@@ -54,15 +87,16 @@ function setupCityTemperatureOnKeyUp(ms) {
 		timer = setTimeout(function() {
 			var newCity = $('.js-input').val();
 
-			if (newCity.length > 0 && newCity != city) {
-				city = newCity;
-				getCityTemperature();
+			if (newCity.length > 0 && newCity != previousCity) {
+				previousCity = newCity;
+				getCityTemperature(newCity);
 			}
 		}, ms);
 	});
 
 	// 'Enter' keypress skips setTimeout
 	$('.js-form').keydown(function(e) {
+		// Check if keypress is 'Enter', else return;
 		var code = (e.keyCode ? e.keyCode : e.which);
 		if (code != 13) {
 			return;
@@ -72,9 +106,9 @@ function setupCityTemperatureOnKeyUp(ms) {
 
 		var newCity = $('.js-input').val();
 
-		if (newCity.length > 0 && newCity != city) {
-			city = newCity;
-			getCityTemperature();
+		if (newCity.length > 0 && newCity != previousCity) {
+			previousCity = newCity;
+			getCityTemperature(newCity);
 		}
 	});
 }
@@ -89,12 +123,7 @@ function setupClearEntries() {
 	$('.js-entries-clear').click(function(e) {
 		e.preventDefault();
 		$('.js-entries').empty();
+		entrySet.clear();
+		localStorage.removeItem(localStorageEntriesKey);
 	})
 }
-
-
-
-setupPreventSubmissionOfForm();
-setupCityTemperatureOnKeyUp(500);
-setupClearEntries();
-getCityTemperature(); // So that the form is run once on page load
