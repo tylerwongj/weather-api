@@ -49,3 +49,21 @@ body {
 	margin-left: auto;
 	max-width: 540px;
 }
+
+.entries-container {
+	position: relative;
+}
+
+.entries-clear {
+	position: absolute;
+	right: 0;
+}
+
+.entry {
+	position: relative;
+}
+
+.entry__clear {
+	position: absolute;
+	right: 0;
+}

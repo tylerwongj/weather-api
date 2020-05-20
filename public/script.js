@@ -15,23 +15,38 @@ function getCityTemperature() {
 			$('.js-weather').text(weather);
 			$('.js-temp').text(temp);
 
-			var latestEntries = $('.js-latest-entries');
+			var entries = $('.js-entries');
 
-			storeLatestEntry(latestEntries, icon, weather, temp);
+			addEntry(entries, icon, weather, temp);
 		}
 	)
 }
 
-function storeLatestEntry(latestEntries, icon, weather, temp) {
-	latestEntries.prepend(`
-		<div class="d-flex align-items-center">
-			<img class="icon" src="${icon}" />
-			${city}, ${weather} - ${temp}&deg;
-		</div>
-	`);
+function addEntry(entries, icon, weather, temp) {
+	var entryNode = document.createElement('div');
+	entryNode.classList.add('entry', 'd-flex', 'align-items-center');
+
+	var imgNode = document.createElement('img');
+	imgNode.classList.add('icon');
+	imgNode.src = icon;
+
+	var textNode = document.createTextNode(`${city}, ${weather} - ${temp}`);
+
+	var clearNode = document.createElement('i');
+	clearNode.classList.add('entry__clear', 'fas', 'fa-times');
+	clearNode.addEventListener('click', function(e) {
+		var parentNode = e.currentTarget.parentNode;
+		parentNode.parentNode.removeChild(parentNode);
+	});
+
+	entryNode.appendChild(imgNode);
+	entryNode.appendChild(textNode);
+	entryNode.appendChild(clearNode);
+
+	entries.prepend(entryNode);
 }
 
-function getCityTemperatureOnKeyUp(ms) {
+function setupCityTemperatureOnKeyUp(ms) {
 	var timer;
 	$('.js-form').keyup(function(e) {
 		e.preventDefault();
@@ -47,12 +62,22 @@ function getCityTemperatureOnKeyUp(ms) {
 	})
 }
 
-function preventSubmissionOfForm() {
+function setupPreventSubmissionOfForm() {
 	$('.js-form').submit(function(e) {
 		e.preventDefault();
 	});
 }
 
-preventSubmissionOfForm();
-getCityTemperatureOnKeyUp(500);
+function setupClearEntries() {
+	$('.js-entries-clear').click(function(e) {
+		e.preventDefault();
+		$('.js-entries').empty();
+	})
+}
+
+
+
+setupPreventSubmissionOfForm();
+setupCityTemperatureOnKeyUp(500);
+setupClearEntries();
 getCityTemperature(); // So that the form is run once on page load
