@@ -30,7 +30,7 @@ function addEntry(entries, icon, weather, temp) {
 	imgNode.classList.add('icon');
 	imgNode.src = icon;
 
-	var textNode = document.createTextNode(`${city}, ${weather} - ${temp}`);
+	var textNode = document.createTextNode(`${city}, ${weather} - ${temp}\xb0`);
 
 	var clearNode = document.createElement('i');
 	clearNode.classList.add('entry__clear', 'fas', 'fa-times');
