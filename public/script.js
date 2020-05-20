@@ -99,11 +99,11 @@ function setupCityTemperatureOnKeyUp(ms) {
 		}, ms);
 	});
 
-	// 'Enter' keypress skips setTimeout
+	// 'Enter' key instantly searches a city
 	$('.js-form').keydown(function(e) {
-		// Check if keypress is 'Enter', else return;
-		var code = (e.keyCode ? e.keyCode : e.which);
-		if (code != 13) {
+		// Check if keypress is 'Enter' (e.keyCode == 13), else exit
+		var keyCode = (e.keyCode ? e.keyCode : e.which);
+		if (keyCode != 13) {
 			return;
 		}
 
