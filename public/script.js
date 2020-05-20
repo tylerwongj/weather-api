@@ -5,7 +5,6 @@ var localStorageEntriesKey = 'entries';
 
 
 // PRIVATE VARS
-var previousCity = initialCity;
 var hasPreviousEntries = (localStorage.getItem(localStorageEntriesKey) != null ? true : false);
 var entryArray = JSON.parse(localStorage.getItem(localStorageEntriesKey)) || [];
 var entrySet = new Set(entryArray) || new Set();
@@ -19,7 +18,7 @@ function setup() {
 	setupClearEntries();
 
 	if (hasPreviousEntries) {
-		getPreviousEntries(entryArray);
+		getPreviousEntries(entrySet);
 	}
 	else {
 		getCityTemperature(initialCity); // So that the form is run once on page load
@@ -28,8 +27,8 @@ function setup() {
 setup();
 
 // FUNCTIONS
-function getPreviousEntries(entryArray) {
-	for (var entry of entryArray) {
+function getPreviousEntries(entrySet) {
+	for (var entry of entrySet) {
 		getCityTemperature(entry);
 	}
 }
@@ -73,10 +72,6 @@ function addEntry(entries, city, icon, weather, temp) {
 		parentNode.parentNode.removeChild(parentNode);
 		entrySet.delete(city);
 		localStorage.setItem(localStorageEntriesKey, JSON.stringify(Array.from(entrySet)));
-
-		if (previousCity == city) {
-			previousCity = "";
-		}
 	});
 
 	entryNode.appendChild(imgNode);
@@ -98,8 +93,7 @@ function setupCityTemperatureOnKeyUp(ms) {
 		timer = setTimeout(function() {
 			var newCity = $('.js-input').val();
 
-			if (newCity.length > 0 && newCity != previousCity) {
-				previousCity = newCity;
+			if (newCity.length > 0 && !entrySet.has(newCity)) {
 				getCityTemperature(newCity);
 			}
 		}, ms);
@@ -117,8 +111,7 @@ function setupCityTemperatureOnKeyUp(ms) {
 
 		var newCity = $('.js-input').val();
 
-		if (newCity.length > 0 && newCity != previousCity) {
-			previousCity = newCity;
+		if (newCity.length > 0 && !entrySet.has(newCity)) {
 			getCityTemperature(newCity);
 		}
 	});
@@ -135,7 +128,6 @@ function setupClearEntries() {
 		e.preventDefault();
 		$('.js-entries').empty();
 		entrySet.clear();
-		previousCity = "";
 		localStorage.removeItem(localStorageEntriesKey);
 	})
 }
