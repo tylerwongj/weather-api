@@ -37,9 +37,10 @@ function getCityTemperatureOnKeyUp(ms) {
 		e.preventDefault();
 		clearTimeout(timer);
 		timer = setTimeout(function() {
-			city = $('.js-input').val();
+			var newCity = $('.js-input').val();
 
-			if (city.length > 0) {
+			if (newCity.length > 0 && newCity != city) {
+				city = newCity;
 				getCityTemperature();
 			}
 		}, ms);
@@ -53,5 +54,5 @@ function preventSubmissionOfForm() {
 }
 
 preventSubmissionOfForm();
-getCityTemperatureOnKeyUp(300);
+getCityTemperatureOnKeyUp(500);
 getCityTemperature(); // So that the form is run once on page load
